@@ -1,0 +1,21 @@
+{
+  "name": "skylark-utils-storage",
+  "version": "0.9.0",
+  "description": "The skylarkjs storage utility library.",
+  "keywords": [
+    "skylark",
+    "skylarkjs",
+    "storage"
+  ],
+  "dependencies": {
+    "skylark-langx": "git+https://github.com/skylarklangx/skylark-langx.git#master"
+  },
+  "scripts": {
+    "build": "sbundle build ."
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skylark-integration/skylark-utils-storage.git"
+  }
+}
