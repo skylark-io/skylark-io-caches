@@ -1,2 +1,2 @@
-# skylark-utils-storage
-The skylark storage utility library.
+# skylark-storages-weblocal
+The skylarkjs web local storage classes library.
