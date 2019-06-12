@@ -1,9 +1,9 @@
 define([
-	"./storages",
+	"./weblocal",
 	"./cookie",
 	"./LocalFileSystem",
 	"./localStorage",
 	"./sessionStorage"
-],function(storages) {
-	return storages;
+],function(weblocal) {
+	return weblocal;
 });

@@ -5,5 +5,5 @@
  * @link 
  * @license MIT
  */
-define(["skylark-langx/skylark"],function(n){return n.storages={}});
-//# sourceMappingURL=sourcemaps/storages.js.map
+define(["skylark-langx/skylark"],function(a){return a.attach("storages.weblocal",{})});
+//# sourceMappingURL=sourcemaps/weblocal.js.map

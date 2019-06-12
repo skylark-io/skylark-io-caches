@@ -86,15 +86,15 @@
 
 })(function(define,require) {
 
-define('skylark-storages-weblocal/storages',[
+define('skylark-storages-weblocal/weblocal',[
 	"skylark-langx/skylark"
 ],function(skylark){
-	return skylark.storages = {};
+	return skylark.attach("storages.weblocal",{});
 });
 define('skylark-storages-weblocal/cookie',[
     "skylark-langx/langx",
-    "./storages"
-], function(langx,storages) {
+    "./weblocal"
+], function(langx,weblocal) {
     function cookie() {
         return cookie;
     }
@@ -143,15 +143,15 @@ define('skylark-storages-weblocal/cookie',[
     });
 
 
-    return storages.cookie = cookie;
+    return weblocal.cookie = cookie;
 
 });
 
 
 define('skylark-storages-weblocal/LocalFileSystem',[
     "skylark-langx/langx",
-    "./storages"
-], function(langx,storages) {
+    "./weblocal"
+], function(langx,weblocal) {
 	var Deferred = langx.Deferred,
 		requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
 		resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL,
@@ -428,14 +428,14 @@ define('skylark-storages-weblocal/LocalFileSystem',[
         }
     });
     
-    storages.requestLocalFileSystem = LocalFileSystem.request;
+    weblocal.requestLocalFileSystem = LocalFileSystem.request;
 
-	return storages.LocalFileSystem = LocalFileSystem;
+	return weblocal.LocalFileSystem = LocalFileSystem;
 });
 define('skylark-storages-weblocal/localStorage',[
     "skylark-langx/langx",
-    "./storages"
-], function(langx,storages) {
+    "./weblocal"
+], function(langx,weblocal) {
 
     var storage  = null;
 
@@ -485,15 +485,15 @@ define('skylark-storages-weblocal/localStorage',[
         }
     });
 
-    return  storages.localStorage = localStorage;
+    return  weblocal.localStorage = localStorage;
 
 });
 
 
 define('skylark-storages-weblocal/sessionStorage',[
     "skylark-langx/langx",
-    "./storages"
-], function(langx,storages) {
+    "./weblocal"
+], function(langx,weblocal) {
 
     var storage  = null;
 
@@ -543,19 +543,19 @@ define('skylark-storages-weblocal/sessionStorage',[
         }
     });
 
-    return  storages.sessionStorage = sessionStorage;
+    return  weblocal.sessionStorage = sessionStorage;
 
 });
 
 
 define('skylark-storages-weblocal/main',[
-	"./storages",
+	"./weblocal",
 	"./cookie",
 	"./LocalFileSystem",
 	"./localStorage",
 	"./sessionStorage"
-],function(storages) {
-	return storages;
+],function(weblocal) {
+	return weblocal;
 });
 define('skylark-storages-weblocal', ['skylark-storages-weblocal/main'], function (main) { return main; });
 

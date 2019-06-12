@@ -1,7 +1,7 @@
 define([
     "skylark-langx/langx",
-    "./storages"
-], function(langx,storages) {
+    "./weblocal"
+], function(langx,weblocal) {
 	var Deferred = langx.Deferred,
 		requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
 		resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL,
@@ -278,7 +278,7 @@ define([
         }
     });
     
-    storages.requestLocalFileSystem = LocalFileSystem.request;
+    weblocal.requestLocalFileSystem = LocalFileSystem.request;
 
-	return storages.LocalFileSystem = LocalFileSystem;
+	return weblocal.LocalFileSystem = LocalFileSystem;
 });

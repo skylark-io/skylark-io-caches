@@ -5,5 +5,5 @@
  * @link 
  * @license MIT
  */
-define(["skylark-langx/langx","./storages"],function(e,t){var n=null;try{n=window.localStorage}catch(e){}function r(){return r}return e.mixin(r,{isSupported:function(){return!!n},set:function(t,r){return void 0===r?this.remove(t):(n.setItem(t,e.serializeValue(r)),r)},get:function(t,r){var i=e.deserializeValue(n.getItem(t));return void 0===i?r:i},remove:function(e){n.removeItem(e)},clear:function(){n.clear()},list:function(){for(var e={},t=0;t<n.length;t++)e[key]=n.key(t);return values}}),t.localStorage=r});
+define(["skylark-langx/langx","./weblocal"],function(e,n){var t=null;try{t=window.localStorage}catch(e){}function r(){return r}return e.mixin(r,{isSupported:function(){return!!t},set:function(n,r){return void 0===r?this.remove(n):(t.setItem(n,e.serializeValue(r)),r)},get:function(n,r){var i=e.deserializeValue(t.getItem(n));return void 0===i?r:i},remove:function(e){t.removeItem(e)},clear:function(){t.clear()},list:function(){for(var e={},n=0;n<t.length;n++)e[key]=t.key(n);return values}}),n.localStorage=r});
 //# sourceMappingURL=sourcemaps/localStorage.js.map

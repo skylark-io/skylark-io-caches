@@ -5,5 +5,5 @@
  * @link 
  * @license MIT
  */
-define(["./storages","./cookie","./LocalFileSystem","./localStorage","./sessionStorage"],function(e){return e});
+define(["./weblocal","./cookie","./LocalFileSystem","./localStorage","./sessionStorage"],function(e){return e});
 //# sourceMappingURL=sourcemaps/main.js.map

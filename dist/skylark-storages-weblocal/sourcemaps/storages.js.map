@@ -1,1 +1,0 @@
-{"version":3,"sources":["storages.js"],"names":["define","skylark","storages"],"mappings":";;;;;;;AAAAA,QACC,yBACC,SAASC,GACV,OAAOA,EAAQC","file":"../storages.js","sourcesContent":["define([\r\n\t\"skylark-langx/skylark\"\r\n],function(skylark){\r\n\treturn skylark.storages = {};\r\n})"]}
