@@ -1,7 +1,157 @@
-define([
+/**
+ * skylark-storages-cache - The skylarkjs web local storage classes library.
+ * @author 
+ * @version v0.9.0
+ * @link 
+ * @license MIT
+ */
+(function(factory,globals) {
+  var define = globals.define,
+      require = globals.require,
+      isAmd = (typeof define === 'function' && define.amd),
+      isCmd = (!isAmd && typeof exports !== 'undefined');
+
+  if (!isAmd && !define) {
+    var map = {};
+    function absolute(relative, base) {
+        if (relative[0]!==".") {
+          return relative;
+        }
+        var stack = base.split("/"),
+            parts = relative.split("/");
+        stack.pop(); 
+        for (var i=0; i<parts.length; i++) {
+            if (parts[i] == ".")
+                continue;
+            if (parts[i] == "..")
+                stack.pop();
+            else
+                stack.push(parts[i]);
+        }
+        return stack.join("/");
+    }
+    define = globals.define = function(id, deps, factory) {
+        if (typeof factory == 'function') {
+            map[id] = {
+                factory: factory,
+                deps: deps.map(function(dep){
+                  return absolute(dep,id);
+                }),
+                resolved: false,
+                exports: null
+            };
+            require(id);
+        } else {
+            map[id] = {
+                factory : null,
+                resolved : true,
+                exports : factory
+            };
+        }
+    };
+    require = globals.require = function(id) {
+        if (!map.hasOwnProperty(id)) {
+            throw new Error('Module ' + id + ' has not been defined');
+        }
+        var module = map[id];
+        if (!module.resolved) {
+            var args = [];
+
+            module.deps.forEach(function(dep){
+                args.push(require(dep));
+            })
+
+            module.exports = module.factory.apply(globals, args) || null;
+            module.resolved = true;
+        }
+        return module.exports;
+    };
+  }
+  
+  if (!define) {
+     throw new Error("The module utility (ex: requirejs or skylark-utils) is not loaded!");
+  }
+
+  factory(define,require);
+
+  if (!isAmd) {
+    var skylarkjs = require("skylark-langx/skylark");
+
+    if (isCmd) {
+      module.exports = skylarkjs;
+    } else {
+      globals.skylarkjs  = skylarkjs;
+    }
+  }
+
+})(function(define,require) {
+
+define('skylark-storages-cache/cache',[
+	"skylark-langx/skylark"
+],function(skylark){
+	return skylark.attach("storages.cache",{});
+});
+define('skylark-storages-cache/cookie',[
     "skylark-langx/langx",
-    "./weblocal"
-], function(langx,weblocal) {
+    "./cache"
+], function(langx,cache) {
+    function cookie() {
+        return cookie;
+    }
+
+    langx.mixin(cookie, {
+		get : function(name) {
+		    if (!sKey || !this.has(name)) { return null; }
+				return unescape(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + escape(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"),"$1"));
+
+		},
+
+		has : function(name) {
+			return (new RegExp("(?:^|;\\s*)" + escape(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+		},
+
+
+		list : function() {
+		    var values = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
+		    for (var i = 0; i < values.length; i++) { 
+		    	values[i] = unescape(values[i]); 
+		    }
+		    return values;
+		},
+
+		remove : function(name,path) {
+		    if (!name || !this.has(name)) { 
+		    	return; 
+		   	}
+		    document.cookie = escape(name) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (path ? "; path=" + path : "");
+		},
+
+		set: function (name, value, expires, path, domain, secure) {
+		    if (!name || /^(?:expires|max\-age|path|domain|secure)$/i.test(name)) { return; }
+
+			var type = langx.type(expires);
+			if (type === 'number') {
+				var date = Date.now();
+				date.setTime(date.getTime() + (expire * 24 * 60 * 60 * 1000));
+				expires = date;
+			} else if (type === 'string') {
+				expires = new Date(Date.now() + langx.parseMilliSeconds(expires));
+			}
+
+		    document.cookie = escape(name) + "=" + escape(value) + (expires? "; domain=" + expires.toGMTString()  : "") + (domain ? "; domain=" + domain : "") + (path ? "; path=" + path : "") + (secure ? "; secure" : "");
+		  }	
+    });
+
+
+    return cache.cookie = cookie;
+
+});
+
+
+define('skylark-storages-cache/LocalFileSystem',[
+    "skylark-langx/langx",
+    "./cache"
+], function(langx,cache) {
 	var Deferred = langx.Deferred,
 		requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
 		resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL,
@@ -278,7 +428,137 @@ define([
         }
     });
     
-    weblocal.requestLocalFileSystem = LocalFileSystem.request;
+    cache.requestLocalFileSystem = LocalFileSystem.request;
 
-	return weblocal.LocalFileSystem = LocalFileSystem;
+	return cache.LocalFileSystem = LocalFileSystem;
 });
+define('skylark-storages-cache/localStorage',[
+    "skylark-langx/langx",
+    "./cache"
+], function(langx,cache) {
+
+    var storage  = null;
+
+    try {
+        storage = window["localStorage"];
+    } catch (e){
+
+    }
+
+    function localStorage() {
+        return localStorage;
+    }
+
+    langx.mixin(localStorage, {
+        isSupported : function() {
+            return !!storage;
+        },
+
+        set : function(key, val) {
+            if (val === undefined) { 
+                return this.remove(key) 
+            }
+            storage.setItem(key, langx.serializeValue(val));
+            return val
+        },
+
+        get : function(key, defaultVal) {
+            var val = langx.deserializeValue(storage.getItem(key))
+            return (val === undefined ? defaultVal : val)
+        },
+
+        remove : function(key) { 
+            storage.removeItem(key) 
+        },
+
+        clear : function() { 
+            storage.clear() 
+        },
+
+        list : function() {
+            var vaules = {}
+            for (var i=0; i<storage.length; i++) {
+                vaules[key] = storage.key(i)
+            }
+
+            return values;
+        }
+    });
+
+    return  cache.localStorage = localStorage;
+
+});
+
+
+define('skylark-storages-cache/sessionStorage',[
+    "skylark-langx/langx",
+    "./cache"
+], function(langx,cache) {
+
+    var storage  = null;
+
+    try {
+        storage = window["sessiionStorage"];
+    } catch (e){
+
+    }
+
+    function sessiionStorage() {
+        return sessiionStorage;
+    }
+
+    langx.mixin(sessiionStorage, {
+        isSupported : function() {
+            return !!storage;
+        },
+
+        set : function(key, val) {
+            if (val === undefined) { 
+                return this.remove(key) 
+            }
+            storage.setItem(key, langx.serializeValue(val));
+            return val
+        },
+
+        get : function(key, defaultVal) {
+            var val = langx.deserializeValue(storage.getItem(key))
+            return (val === undefined ? defaultVal : val)
+        },
+
+        remove : function(key) { 
+            storage.removeItem(key) 
+        },
+
+        clear : function() { 
+            storage.clear() 
+        },
+
+        list : function() {
+            var vaules = {}
+            for (var i=0; i<storage.length; i++) {
+                vaules[key] = storage.key(i)
+            }
+
+            return values;
+        }
+    });
+
+    return  cache.sessionStorage = sessionStorage;
+
+});
+
+
+define('skylark-storages-cache/main',[
+	"./cache",
+	"./cookie",
+	"./LocalFileSystem",
+	"./localStorage",
+	"./sessionStorage"
+],function(cache) {
+	return cache;
+});
+define('skylark-storages-cache', ['skylark-storages-cache/main'], function (main) { return main; });
+
+
+},this);
+//# sourceMappingURL=sourcemaps/skylark-storages-cache.js.map

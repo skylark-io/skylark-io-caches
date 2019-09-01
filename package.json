@@ -1,5 +1,5 @@
 {
-  "name": "skylark-storages-weblocal",
+  "name": "skylark-storages-cache",
   "version": "0.9.0",
   "description": "The skylarkjs web local storage classes library.",
   "keywords": [
@@ -16,6 +16,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/skylark-storages/skylark-storages-weblocal.git"
+    "url": "https://github.com/skylark-storages/skylark-storages-cache.git"
   }
 }

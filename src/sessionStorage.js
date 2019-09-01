@@ -1,7 +1,7 @@
 define([
     "skylark-langx/langx",
-    "./weblocal"
-], function(langx,weblocal) {
+    "./cache"
+], function(langx,cache) {
 
     var storage  = null;
 
@@ -51,7 +51,7 @@ define([
         }
     });
 
-    return  weblocal.sessionStorage = sessionStorage;
+    return  cache.sessionStorage = sessionStorage;
 
 });
 

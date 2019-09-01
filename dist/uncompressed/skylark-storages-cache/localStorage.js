@@ -1,21 +1,21 @@
 define([
     "skylark-langx/langx",
-    "./weblocal"
-], function(langx,weblocal) {
+    "./cache"
+], function(langx,cache) {
 
     var storage  = null;
 
     try {
-        storage = window["sessiionStorage"];
+        storage = window["localStorage"];
     } catch (e){
 
     }
 
-    function sessiionStorage() {
-        return sessiionStorage;
+    function localStorage() {
+        return localStorage;
     }
 
-    langx.mixin(sessiionStorage, {
+    langx.mixin(localStorage, {
         isSupported : function() {
             return !!storage;
         },
@@ -51,7 +51,7 @@ define([
         }
     });
 
-    return  weblocal.sessionStorage = sessionStorage;
+    return  cache.localStorage = localStorage;
 
 });
 

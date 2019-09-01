@@ -1,5 +1,5 @@
 define([
 	"skylark-langx/skylark"
 ],function(skylark){
-	return skylark.attach("storages.weblocal",{});
+	return skylark.attach("storages.cache",{});
 })
