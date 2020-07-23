@@ -1,5 +1,5 @@
 /**
- * skylark-storages-cache - The skylarkjs web local storage classes library.
+ * skylark-io-caches - The skylarkjs web local storage classes library.
  * @author 
  * @version v0.9.0
  * @link 
@@ -86,12 +86,12 @@
 
 })(function(define,require) {
 
-define('skylark-storages-cache/cache',[
+define('skylark-io-caches/cache',[
 	"skylark-langx/skylark"
 ],function(skylark){
 	return skylark.attach("storages.cache",{});
 });
-define('skylark-storages-cache/cookie',[
+define('skylark-io-caches/cookie',[
     "skylark-langx/langx",
     "./cache"
 ], function(langx,cache) {
@@ -148,7 +148,7 @@ define('skylark-storages-cache/cookie',[
 });
 
 
-define('skylark-storages-cache/LocalFileSystem',[
+define('skylark-io-caches/LocalFileSystem',[
     "skylark-langx/langx",
     "./cache"
 ], function(langx,cache) {
@@ -432,7 +432,7 @@ define('skylark-storages-cache/LocalFileSystem',[
 
 	return cache.LocalFileSystem = LocalFileSystem;
 });
-define('skylark-storages-cache/localStorage',[
+define('skylark-io-caches/localStorage',[
     "skylark-langx/langx",
     "./cache"
 ], function(langx,cache) {
@@ -490,7 +490,7 @@ define('skylark-storages-cache/localStorage',[
 });
 
 
-define('skylark-storages-cache/sessionStorage',[
+define('skylark-io-caches/sessionStorage',[
     "skylark-langx/langx",
     "./cache"
 ], function(langx,cache) {
@@ -548,7 +548,7 @@ define('skylark-storages-cache/sessionStorage',[
 });
 
 
-define('skylark-storages-cache/main',[
+define('skylark-io-caches/main',[
 	"./cache",
 	"./cookie",
 	"./LocalFileSystem",
@@ -557,8 +557,8 @@ define('skylark-storages-cache/main',[
 ],function(cache) {
 	return cache;
 });
-define('skylark-storages-cache', ['skylark-storages-cache/main'], function (main) { return main; });
+define('skylark-io-caches', ['skylark-io-caches/main'], function (main) { return main; });
 
 
 },this);
-//# sourceMappingURL=sourcemaps/skylark-storages-cache.js.map
+//# sourceMappingURL=sourcemaps/skylark-io-caches.js.map

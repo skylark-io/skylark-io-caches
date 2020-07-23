@@ -1,5 +1,5 @@
 /**
- * skylark-storages-cache - The skylarkjs web local storage classes library.
+ * skylark-io-caches - The skylarkjs web local storage classes library.
  * @author 
  * @version v0.9.0
  * @link 
