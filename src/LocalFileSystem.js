@@ -1,6 +1,6 @@
 define([
     "skylark-langx/langx",
-    "./cache"
+    "./caches"
 ], function(langx,cache) {
 	var Deferred = langx.Deferred,
 		requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
@@ -278,7 +278,7 @@ define([
         }
     });
     
-    cache.requestLocalFileSystem = LocalFileSystem.request;
+    caches.requestLocalFileSystem = LocalFileSystem.request;
 
-	return cache.LocalFileSystem = LocalFileSystem;
+	return caches.LocalFileSystem = LocalFileSystem;
 });

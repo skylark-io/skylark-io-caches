@@ -1,9 +1,10 @@
 define([
-	"./cache",
+	"./caches",
+	"./clipboard",
 	"./cookie",
 	"./LocalFileSystem",
 	"./localStorage",
 	"./sessionStorage"
-],function(cache) {
+],function(caches) {
 	return cache;
 });

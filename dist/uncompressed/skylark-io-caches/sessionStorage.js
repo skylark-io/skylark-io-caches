@@ -1,7 +1,7 @@
 define([
     "skylark-langx/langx",
     "./cache"
-], function(langx,cache) {
+], function(langx,caches) {
 
     var storage  = null;
 
@@ -51,7 +51,7 @@ define([
         }
     });
 
-    return  cache.sessionStorage = sessionStorage;
+    return  caches.sessionStorage = sessionStorage;
 
 });
 

@@ -1,7 +1,7 @@
 define([
     "skylark-langx/langx",
-    "./cache"
-], function(langx,cache) {
+    "./caches"
+], function(langx,caches) {
     function cookie() {
         return cookie;
     }
@@ -50,7 +50,7 @@ define([
     });
 
 
-    return cache.cookie = cookie;
+    return caches.cookie = cookie;
 
 });
 
