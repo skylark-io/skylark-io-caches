@@ -1,7 +1,10 @@
 define([
-    "skylark-langx/langx",
-    "./caches"
-], function(langx,caches) {
+    "skylark-langx-objects/mixin",
+    "skylark-langx-strings",
+    "../caches"
+], function(mixin,strings,caches) {
+    "use strict";
+
 
     var storage  = null;
 
@@ -15,7 +18,7 @@ define([
         return localStorage;
     }
 
-    langx.mixin(localStorage, {
+    mixin(localStorage, {
         isSupported : function() {
             return !!storage;
         },
@@ -24,12 +27,12 @@ define([
             if (val === undefined) { 
                 return this.remove(key) 
             }
-            storage.setItem(key, langx.serializeValue(val));
+            storage.setItem(key, strings.serializeValue(val));
             return val
         },
 
         get : function(key, defaultVal) {
-            var val = langx.deserializeValue(storage.getItem(key))
+            var val = strings.deserializeValue(storage.getItem(key))
             return (val === undefined ? defaultVal : val)
         },
 
@@ -51,7 +54,7 @@ define([
         }
     });
 
-    return  caches.localStorage = localStorage;
+    return  caches.storages.local = localStorage;
 
 });
 

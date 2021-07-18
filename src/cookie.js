@@ -1,12 +1,16 @@
 define([
-    "skylark-langx/langx",
+    "skylark-langx-types",
+    "skylark-langx-objects/mixin",
+    "skylark-langx-datetimes",
     "./caches"
-], function(langx,caches) {
+], function(types,mixin,datetimes,caches) {
+	"use strict";
+
     function cookie() {
         return cookie;
     }
 
-    langx.mixin(cookie, {
+    mixin(cookie, {
 		get : function(name) {
 		    if (!sKey || !this.has(name)) { return null; }
 				return unescape(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + escape(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"),"$1"));
@@ -36,13 +40,13 @@ define([
 		set: function (name, value, expires, path, domain, secure) {
 		    if (!name || /^(?:expires|max\-age|path|domain|secure)$/i.test(name)) { return; }
 
-			var type = langx.type(expires);
+			var type = types.type(expires);
 			if (type === 'number') {
 				var date = Date.now();
 				date.setTime(date.getTime() + (expire * 24 * 60 * 60 * 1000));
 				expires = date;
 			} else if (type === 'string') {
-				expires = new Date(Date.now() + langx.parseMilliSeconds(expires));
+				expires = new Date(Date.now() + datetimes.parseMilliSeconds(expires));
 			}
 
 		    document.cookie = escape(name) + "=" + escape(value) + (expires? "; domain=" + expires.toGMTString()  : "") + (domain ? "; domain=" + domain : "") + (path ? "; path=" + path : "") + (secure ? "; secure" : "");

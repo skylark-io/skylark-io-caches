@@ -5,5 +5,5 @@
  * @link 
  * @license MIT
  */
-define(["./caches","./clipboard","./cookie","./LocalFileSystem","./localStorage","./sessionStorage"],function(e){return cache});
+define(["./caches","./clipboard","./cookie","./local-file-system","./storages/local","./storages/session"],function(s){"use strict";return s});
 //# sourceMappingURL=sourcemaps/main.js.map

@@ -5,5 +5,5 @@
  * @link 
  * @license MIT
  */
-define(["skylark-langx/skylark"],function(a){return a.attach("io.caches",{})});
+define(["skylark-langx-ns"],function(s){"use strict";let t=s.attach("io.caches");return t.storages=t.storages||{},t});
 //# sourceMappingURL=sourcemaps/caches.js.map

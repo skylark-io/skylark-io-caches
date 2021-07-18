@@ -1,5 +1,8 @@
 define([
-	"skylark-langx/skylark"
+	"skylark-langx-ns"
 ],function(skylark){
-	return skylark.attach("io.caches",{});
+	"use strict";
+	let caches = skylark.attach("io.caches");
+	caches.storages =  caches.storages || {};
+	return caches;
 })

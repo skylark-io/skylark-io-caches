@@ -2,9 +2,11 @@ define([
 	"./caches",
 	"./clipboard",
 	"./cookie",
-	"./LocalFileSystem",
-	"./localStorage",
-	"./sessionStorage"
+	"./local-file-system",
+	"./storages/local",
+	"./storages/session"
 ],function(caches) {
-	return cache;
+	"use strict";
+	
+	return caches;
 });

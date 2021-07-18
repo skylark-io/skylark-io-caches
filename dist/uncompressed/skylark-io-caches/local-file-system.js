@@ -1,9 +1,12 @@
 define([
-    "skylark-langx/langx",
+    "skylark-langx-objects/mixin",
+    "skylark-langx-events/Emitter",
+    "skylark-langx-async/Deferred",
     "./caches"
-], function(langx,cache) {
-	var Deferred = langx.Deferred,
-		requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
+], function(mixin,Emitter,Deferred,caches) {
+	"use strict";
+
+	var requestFileSystem =  window.requestFileSystem || window.webkitRequestFileSystem,
 		resolveLocalFileSystemURL = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL,
      	BlobBuilder = window.MozBlobBuilder || window.WebKitBlobBuilder || window.BlobBuilder;
 
@@ -35,7 +38,7 @@ define([
 	  return msg;
 	}
 	
-	var LocalFileSystem = langx.Evented.inherit({
+	var LocalFileSystem = Emitter.inherit({
 		_fs : null,
 		_isPersisted : true,
 		_cwd : null,
@@ -259,7 +262,7 @@ define([
         return localfs;
     }
 
-    langx.mixin(LocalFileSystem, {
+    mixin(LocalFileSystem, {
         isSupported : function() {
             return !!requestFileSystem;
         },
